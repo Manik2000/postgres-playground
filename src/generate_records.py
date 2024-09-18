@@ -5,8 +5,8 @@ from dotenv import load_dotenv
 from tqdm import tqdm
 
 from src.classes import GamePlay, Player
-from src.database import get_cursor, drop_and_create_tables
-from src.settings import END_DATE, START_DATE, games, players
+from src.database import drop_and_create_tables, get_cursor
+from src.settings import END_DATE, GAMES, PLAYERS, START_DATE
 
 
 load_dotenv()
@@ -20,21 +20,27 @@ delta = (end_date - start_date).days
 def generate_records_per_player(player: Player) -> list[GamePlay]:
     num_of_games_plays = np.random.binomial(n=delta, p=player.frequency)
     days = np.random.choice(range(delta), size=num_of_games_plays, replace=False)
-    play_times = np.random.gamma(
-        shape=player.average_play_time, scale=1, size=len(days)
-    )
-    scores = np.random.gamma(shape=player.average_score, scale=1, size=len(days))
-    games_names = list(player.preferences.keys())
-    played_games = np.random.choice(
-        games_names, size=len(days), p=list(player.preferences.values())
-    )
+    games = [game.name for game in player.games]
+    games_preferences = [game.preference for game in player.games]
+    games_play_times = [game.average_play_time for game in player.games]
+    games_scores = [game.average_score for game in player.games]
+
+    played_games = np.random.choice(games, size=num_of_games_plays, p=games_preferences)
+    play_times = [
+        np.random.gamma(shape=games_play_times[games.index(i)], scale=1, size=1)[0]
+        for i in played_games
+    ]
+    scores = [
+        np.random.gamma(shape=games_scores[games.index(i)], scale=1, size=1)[0]
+        for i in played_games
+    ]
     game_plays = [
         GamePlay(
             id=0,
             player_id=player.id,
-            game_id=next(game.id for game in games if game.name == played_games[i]),
+            game_id=GAMES[played_games[i]],
             score=int(scores[i]),
-            play_time=int(play_times[i]),
+            play_time=round(float(play_times[i]), 2),
             date=start_date + timedelta(days=int(days[i])),
         )
         for i in range(len(days))
@@ -44,12 +50,12 @@ def generate_records_per_player(player: Player) -> list[GamePlay]:
 
 def main() -> None:
     drop_and_create_tables()
-    for game in games:
+    for game_name, game_id in GAMES.items():
         with get_cursor() as cursor:
             cursor.execute(
-                "INSERT INTO games (id, name) VALUES (%s, %s)", (game.id, game.name)
+                "INSERT INTO games (id, name) VALUES (%s, %s)", (game_id, game_name)
             )
-    for player in tqdm(players):
+    for player in tqdm(PLAYERS):
         player_records = generate_records_per_player(player)
         with get_cursor() as cursor:
             cursor.execute(
@@ -62,8 +68,8 @@ def main() -> None:
                     (
                         record.player_id,
                         record.game_id,
-                        record.score,
                         record.play_time,
+                        record.score,
                         record.date,
                     ),
                 )

@@ -1,8 +1,8 @@
 import os
 from contextlib import contextmanager
+from typing import Generator
 
 import psycopg2
-from typing import Generator
 from dotenv import load_dotenv
 
 
