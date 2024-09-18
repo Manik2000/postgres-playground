@@ -16,5 +16,5 @@ CREATE TABLE player_games (
     game_id INT REFERENCES games(id),
     duration INT,
     score INT,
-    date_played TIMESTAMP
+    date DATE
 );
