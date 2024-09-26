@@ -81,4 +81,12 @@ docker-compose up --build
 
 ### Render
 
-You can also host tyour database using Render for free. Create an account and simply choose the service from the available ones. Then follow you can connect to the database, set the credentials accordingly, and use `main.py` to fill up the database.
+You can also host your database using Render for free. Create an account and simply choose the service from the available ones. Then you can connect to the database, set the credentials accordingly, and use `main.py` to fill up the database.
+
+## Query exercises
+
+You can find a ;ist of exercises here: https://manik2000.github.io/postgres-playground/.
+
+## Disclaimer
+
+I created this small project for my brother. The synthetic data is quite dummy (I am planning to improve it), the database is of quite simple structure (only 3 tables), and there are not so many exercises.
