@@ -12,33 +12,104 @@
     <h1>SQL Query Exercises</h1>
     
     <section id="about">
-        <h2>About</h2>
-        <p>This page contains exercises to practice writing SQL queries. Click on each question to reveal the answer.</p>
+        <p>This page contains exercises to practice writing SQL queries. Click on each question to reveal the answer.<br> Set up the database according to the <a href="https://github.com/Manik2000/postgres-playground/blob/main/README.md">README</a> instructions.</p>
     </section>
 
     <section id="exercises">
         <div class="exercise">
-            <div class="question" onclick="toggleAnswer(this)">1. Select all columns from the 'customers' table.</div>
+            <div class="question" onclick="toggleAnswer(this)">1. Select all columns from the 'games' table.</div>
             <div class="answer">
-                <pre><code class="sql">SELECT * FROM customers;</code></pre>
+                <pre><code class="sql">SELECT * FROM games;</code></pre>
             </div>
         </div>
 
         <div class="exercise">
-            <div class="question" onclick="toggleAnswer(this)">2. Select distinct values from the 'country' column in the 'customers' table.</div>
+            <div class="question" onclick="toggleAnswer(this)">2. Select distinct game ids of the played games from the 'player_games' table.</div>
             <div class="answer">
-                <pre><code class="sql">SELECT DISTINCT country FROM customers;</code></pre>
+                <pre><code class="sql">SELECT DISTINCT game_id FROM player_games;</code></pre>
             </div>
         </div>
 
         <div class="exercise">
-            <div class="question" onclick="toggleAnswer(this)">3. Select all customers from 'Germany' and order them by name.</div>
+            <div class="question" onclick="toggleAnswer(this)">3. Select the number of all records from the 'player_games' table.</div>
             <div class="answer">
-                <pre><code class="sql">SELECT * FROM customers
-WHERE country = 'Germany'
-ORDER BY customer_name;</code></pre>
+                <pre><code class="sql">SELECT count(*) FROM player_games;</code></pre>
             </div>
         </div>
+
+        <div class="exercise">
+            <div class="question" onclick="toggleAnswer(this)">4. Select top 5 duration of single gameplays and the ids and the dates for them.<br> Order by the duration, descending</div>
+            <div class="answer">
+                <pre><code class="sql">
+SELECT duration, game_id, date 
+FROM player_games
+ORDER BY duration DESC
+LIMIT 5;
+                </code></pre>
+            </div>
+        </div>
+
+        <div class="exercise">
+            <div class="question" onclick="toggleAnswer(this)">5. Get all the players' names and the lengths of the names.</div>
+            <div class="answer">
+                <pre><code class="sql">SELECT name, LENGTH(name) FROM player;</code></pre>
+            </div>
+        </div>
+
+        <div class="exercise">
+            <div class="question" onclick="toggleAnswer(this)">6. Get the minimal and maximal date.</div>
+            <div class="answer">
+                <pre><code class="sql">SELECT MIN(date), MAX(date) FROM player_games;</code></pre>
+            </div>
+        </div>
+
+        <div class="exercise">
+            <div class="question" onclick="toggleAnswer(this)">7. Get the average score of the players.</div>
+            <div class="answer">
+                <pre><code class="sql">SELECT AVG(score) FROM player_games;</code></pre>
+            </div>
+        </div>
+
+        <div class="exercise">
+            <div class="question" onclick="toggleAnswer(this)">8. Get the average gameplay time for each of the game ids.<br> Order by the average duration.</div>
+            <div class="answer">
+                <pre><code class="sql">SELECT game_id, AVG(duration) FROM player_games GROUP BY game_id ORDER BY 2;</code></pre>
+            </div>
+        </div>
+
+        <div class="exercise">
+            <div class="question" onclick="toggleAnswer(this)">9. Get the games, average score and number of all gameplays between 2022-08-05 and 2023-09-25 for all games. Order by the number of games, descending.</div>
+            <div class="answer">
+                <pre><code class="sql">SELECT game_id, AVG(score), count(*)
+FROM player_games
+WHERE date BETWEEN '2022-08-05' AND '2023-09-25'
+GROUP BY game_id
+ORDER BY 3 DESC;
+            </code></pre>
+            </div>
+        </div>
+
+        <div class="exercise">
+            <div class="question" onclick="toggleAnswer(this)">10. Select the game name for which the average score was the highest.</div>
+            <div class="answer">
+                <pre><code class="sql">Surprise;</code></pre>
+            </div>
+        </div>
+
+        <div class="exercise">
+            <div class="question" onclick="toggleAnswer(this)">11. Get the name of the player who played longer than others between 2022-08-05 and 2023-09-25.</div>
+            <div class="answer">
+                <pre><code class="sql">Surprise;</code></pre>
+            </div>
+        </div>
+
+        <div class="exercise">
+            <div class="question" onclick="toggleAnswer(this)">12. Select the dates when no one played.</div>
+            <div class="answer">
+                <pre><code class="sql">Surprise;</code></pre>
+            </div>
+        </div>
+
     </section>
 
     <script>
