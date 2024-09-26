@@ -1,15 +1,11 @@
 from datetime import datetime, timedelta
 
 import numpy as np
-from dotenv import load_dotenv
 from tqdm import tqdm
 
 from src.classes import GamePlay, Player
 from src.database import drop_and_create_tables, get_cursor
 from src.settings import END_DATE, GAMES, PLAYERS, START_DATE
-
-
-load_dotenv()
 
 
 start_date = datetime.strptime(START_DATE, "%Y-%m-%d").date()
