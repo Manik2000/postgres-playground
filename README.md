@@ -85,7 +85,7 @@ You can also host your database using Render for free. Create an account and sim
 
 ## Query exercises
 
-You can find a ;ist of exercises here: https://manik2000.github.io/postgres-playground/.
+You can find a list of exercises here: https://manik2000.github.io/postgres-playground/.
 
 ## Disclaimer
 
